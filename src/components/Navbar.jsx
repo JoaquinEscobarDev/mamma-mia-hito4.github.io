@@ -1,31 +1,35 @@
+import { Link } from "react-router-dom"
+
 const Navbar = () => {
-  const total = 25000
-  const token = false
-
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-4">
-      <div className="container-fluid">
-        <span className="navbar-brand">Pizzería Mamma Mia!</span>
+    <nav className="navbar navbar-dark bg-dark px-4">
 
-        <div className="d-flex gap-2 flex-wrap">
-          <button className="btn btn-outline-light btn-sm">🍕 Home</button>
+      <Link className="navbar-brand" to="/">
+        🍕 Mamma Mía
+      </Link>
 
-          {token ? (
-            <>
-              <button className="btn btn-outline-light btn-sm">🔓 Profile</button>
-              <button className="btn btn-outline-light btn-sm">🔒 Logout</button>
-            </>
-          ) : (
-            <>
-              <button className="btn btn-outline-light btn-sm">🔐 Login</button>
-              <button className="btn btn-outline-light btn-sm">🔐 Register</button>
-            </>
-          )}
+      <div className="d-flex gap-2">
 
-          <button className="btn btn-outline-info btn-sm">
-            🛒 Total: ${total.toLocaleString('es-CL')}
-          </button>
-        </div>
+        <Link className="btn btn-outline-light" to="/">
+          Home
+        </Link>
+
+        <Link className="btn btn-outline-light" to="/login">
+          Login
+        </Link>
+
+        <Link className="btn btn-outline-light" to="/register">
+          Register
+        </Link>
+
+        <Link className="btn btn-outline-light" to="/profile">
+          Profile
+        </Link>
+
+        <Link className="btn btn-warning" to="/cart">
+          🛒 Total: $0
+        </Link>
+
       </div>
     </nav>
   )

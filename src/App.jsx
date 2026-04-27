@@ -1,21 +1,41 @@
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import Home from "./components/Home";
-import RegisterPage from "./components/RegisterPage";
-import LoginPage from "./components/LoginPage";
-import Cart from "./components/Cart";
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+
+import Navbar from "./components/Navbar"
+import Footer from "./components/Footer"
+
+import Home from "./pages/Home"
+import Login from "./pages/Login"
+import Register from "./pages/Register"
+import Cart from "./pages/Cart"
+import Pizza from "./pages/Pizza"
+import Profile from "./pages/Profile"
+import NotFound from "./pages/NotFound"
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
+
       <Navbar />
-      {/* <Home /> */}
-      {/* <LoginPage /> */}
-      {/* <RegisterPage /> */}
-      <Cart />
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/pizza/p001" element={<Pizza />} />
+        <Route path="/profile" element={<Profile />} />
+
+        {/* ruta explícita */}
+        <Route path="/404" element={<NotFound />} />
+
+        {/* fallback obligatorio */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+
       <Footer />
-    </>
-  );
+
+    </BrowserRouter>
+  )
 }
 
-export default App;
+export default App
