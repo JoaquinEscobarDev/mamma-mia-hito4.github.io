@@ -144,6 +144,50 @@ Renderiza:
 
 ------------------------------------------------------------------------
 
+# 📚 Hito 5 --- Enrutamiento con React Router
+
+## Objetivo
+
+Implementar el sistema de enrutamiento de la aplicación utilizando React Router.
+
+## Instalación
+
+Se instaló `react-router-dom` como dependencia del proyecto.
+
+## Páginas trasladadas a src/pages/
+
+-   Home.jsx
+-   Register.jsx
+-   Login.jsx
+-   Cart.jsx
+-   Pizza.jsx
+
+## Nuevas páginas creadas
+
+-   Profile.jsx
+-   NotFound.jsx
+
+## Rutas configuradas en App.jsx
+
+-   `/` → Home
+-   `/register` → Register
+-   `/login` → Login
+-   `/cart` → Cart
+-   `/pizza/p001` → Pizza
+-   `/profile` → Profile
+-   `/404` → NotFound
+-   `*` → NotFound (fallback)
+
+## Funcionalidades implementadas
+
+-   `BrowserRouter` y `Routes` configurados en `App.jsx`
+-   Navbar con enlaces usando `Link` de React Router
+-   Botón 🛒 Total redirige a `/cart`
+-   Página `NotFound` con enlace de regreso a `/`
+-   Página `Profile` con email estático y botón de cierre de sesión (visual)
+
+------------------------------------------------------------------------
+
 # 📚 Hito 6 --- Context API y carrito global
 
 ## Objetivo
