@@ -144,6 +144,48 @@ Renderiza:
 
 ------------------------------------------------------------------------
 
+# 📚 Hito 6 --- Context API y carrito global
+
+## Objetivo
+
+Implementar el manejo de estado global en la aplicación utilizando Context API.
+
+## Archivos creados
+
+-   src/context/CartContext.jsx
+
+## Implementación
+
+Se creó `CartContext` con `CartProvider` que expone:
+
+-   `cart` — arreglo de productos en el carrito (con `count` por producto)
+-   `addToCart(pizza)` — agrega una pizza o incrementa su cantidad si ya existe
+-   `increase(id)` — incrementa la cantidad de un producto
+-   `decrease(id)` — decrementa la cantidad y elimina el producto si llega a 0
+-   `total` — precio total calculado automáticamente
+
+## Modificaciones
+
+`App.jsx` — envuelto con `<CartProvider>` para dar acceso global al contexto.
+
+`Navbar.jsx` — consume `useCart()` para mostrar el total real del carrito en tiempo real.
+
+`CardPizza.jsx` — agregado botón "Añadir al carrito" que dispara la prop `onAdd`.
+
+`Home.jsx` — consume `addToCart` del context y lo pasa a cada `CardPizza`.
+
+`Cart.jsx` — reemplaza estado local por `useCart()`. Muestra carrito vacío si no hay productos y el mismo total que el Navbar.
+
+## Funcionalidades implementadas
+
+-   Estado global del carrito compartido entre todos los componentes
+-   Botón "Añadir al carrito" funcional en cada card de Home
+-   Navbar muestra el total actualizado en tiempo real
+-   Página Cart permite agregar y eliminar productos
+-   Total sincronizado entre Navbar y página Cart
+
+------------------------------------------------------------------------
+
 # 🧠 Hooks utilizados
 
 ## useState
@@ -153,7 +195,7 @@ Para manejar estados locales:
 -   listado de pizzas
 -   detalle de pizza
 -   formularios
--   carrito
+-   carrito (ahora en CartContext)
 
 ## useEffect
 
@@ -161,6 +203,12 @@ Utilizado para:
 
 -   consumo de API
 -   renderizado inicial de datos
+
+## useContext
+
+Utilizado para:
+
+-   consumir `CartContext` desde cualquier componente sin prop drilling
 
 ------------------------------------------------------------------------
 
@@ -197,6 +245,9 @@ npm install npm start
 ✔ Vista carrito\
 ✔ Consumo de API externa\
 ✔ Renderizado dinámico desde backend\
-✔ Uso correcto de hooks React
+✔ Uso correcto de hooks React\
+✔ Estado global con Context API\
+✔ Carrito funcional con agregar y eliminar productos\
+✔ Total sincronizado entre Navbar y página Cart
 
 ------------------------------------------------------------------------
