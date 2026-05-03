@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { CartProvider } from "./context/CartContext"
 
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
@@ -13,6 +14,7 @@ import NotFound from "./pages/NotFound"
 
 function App() {
   return (
+    <CartProvider>
     <BrowserRouter>
 
       <Navbar />
@@ -35,6 +37,7 @@ function App() {
       <Footer />
 
     </BrowserRouter>
+    </CartProvider>
   )
 }
 

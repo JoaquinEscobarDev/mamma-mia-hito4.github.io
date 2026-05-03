@@ -1,8 +1,11 @@
 import pizzas from "../assets/pizzas"
 import Header from "../components/Header"
 import CardPizza from "../components/CardPizza"
+import { useCart } from "../context/CartContext"
 
 const Home = () => {
+  const { addToCart } = useCart()
+
   return (
     <>
       <Header />
@@ -16,6 +19,7 @@ const Home = () => {
                 price={pizza.price}
                 ingredients={pizza.ingredients}
                 img={pizza.img}
+                onAdd={() => addToCart(pizza)}
               />
             </div>
           ))}

@@ -1,8 +1,8 @@
-const CardPizza = ({ name, price, ingredients, img }) => {
+const CardPizza = ({ name, price, ingredients, img, onAdd }) => {
   return (
     <div className="card h-100">
       <img src={img} className="card-img-top" alt={name} />
-      <div className="card-body">
+      <div className="card-body d-flex flex-column">
         <h5 className="card-title text-capitalize">{name}</h5>
         <p className="fw-bold mb-2">Ingredientes:</p>
         <ul>
@@ -13,9 +13,12 @@ const CardPizza = ({ name, price, ingredients, img }) => {
           ))}
         </ul>
         <h6 className="mt-3">Precio: ${price.toLocaleString()}</h6>
+        <button className="btn btn-dark mt-auto" onClick={onAdd}>
+          Añadir al carrito
+        </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CardPizza;
+export default CardPizza
