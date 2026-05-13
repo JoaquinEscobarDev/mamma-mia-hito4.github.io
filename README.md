@@ -10,11 +10,12 @@ de API externa con React.
 # 🚀 Tecnologías utilizadas
 
 -   React
+-   React Router DOM
 -   Vite
 -   JavaScript (ES6+)
 -   Bootstrap
 -   Fetch API
--   React Hooks (`useState`, `useEffect`)
+-   React Hooks (`useState`, `useEffect`, `useContext`, `useParams`)
 
 ------------------------------------------------------------------------
 
@@ -98,80 +99,35 @@ Vista Cart:
 -   Listado de productos
 -   Cantidad
 -   Precio total
--   Botón pagar (visual)
 
 ------------------------------------------------------------------------
 
-# 📚 Hito 4 --- Consumo de API con React
+# 📚 Hito 4 --- Estado con useState y eventos
 
 ## Objetivo
 
-Consumir una API externa utilizando `fetch` y `useEffect`.
+Manejar estado local y eventos en componentes funcionales.
 
-API utilizada:
+## Funcionalidades implementadas
 
-http://localhost:5000/api/pizzas
-
-## Implementación en Home.jsx
-
-Se reemplazó el arreglo local de pizzas por datos obtenidos desde la
-API.
-
-Permite:
-
--   Obtener listado de pizzas desde backend
--   Renderizar tarjetas dinámicamente
--   Actualizar estado con useState
-
-## Implementación en Pizza.jsx
-
-Se creó el componente:
-
-src/components/Pizza.jsx
-
-Consumiento el endpoint:
-
-http://localhost:5000/api/pizzas/p001
-
-Renderiza:
-
--   Nombre
--   Imagen
--   Descripción
--   Ingredientes
--   Precio
--   Botón añadir al carrito (visual)
+-   `useState` para controlar formularios e inputs
+-   Eventos `onChange` y `onSubmit`
+-   Validaciones básicas
+-   Render condicional según el estado
 
 ------------------------------------------------------------------------
 
-# 📚 Hito 5 --- Enrutamiento con React Router
+# 📚 Hito 5 --- React Router y vistas dinámicas
 
 ## Objetivo
 
-Implementar el sistema de enrutamiento de la aplicación utilizando React Router.
+Implementar navegación entre vistas con React Router.
 
-## Instalación
-
-Se instaló `react-router-dom` como dependencia del proyecto.
-
-## Páginas trasladadas a src/pages/
-
--   Home.jsx
--   Register.jsx
--   Login.jsx
--   Cart.jsx
--   Pizza.jsx
-
-## Nuevas páginas creadas
-
--   Profile.jsx
--   NotFound.jsx
-
-## Rutas configuradas en App.jsx
+## Rutas creadas
 
 -   `/` → Home
--   `/register` → Register
 -   `/login` → Login
+-   `/register` → Register
 -   `/cart` → Cart
 -   `/pizza/p001` → Pizza
 -   `/profile` → Profile
@@ -230,6 +186,61 @@ Se creó `CartContext` con `CartProvider` que expone:
 
 ------------------------------------------------------------------------
 
+# 📚 Hito 7 --- React Router II, rutas protegidas y useParams
+
+## Objetivo
+
+Implementar rutas protegidas con un `UserContext` (token simulado) y consumir el endpoint dinámico `GET /api/pizzas/:id` usando el hook `useParams`.
+
+## Archivos creados
+
+-   `src/context/UserContext.jsx`
+-   `src/components/RouteGuards.jsx`
+
+## Implementación
+
+`UserContext` expone:
+
+-   `token` — estado booleano, por defecto en `true`
+-   `logout()` — cambia el token a `false`
+-   `login()` — cambia el token a `true` (preparación para integraciones futuras)
+
+`RouteGuards.jsx` contiene dos componentes:
+
+-   `ProtectedRoute` — si el token es `false`, redirige a `/login`
+-   `PublicRoute` — si el token es `true`, redirige a `/`
+
+## Modificaciones
+
+`App.jsx` — envuelto con `<UserProvider>`. Se cambia la ruta `/pizza/p001` por la ruta dinámica `/pizza/:id`. `/profile` se envuelve con `ProtectedRoute`, mientras que `/login` y `/register` se envuelven con `PublicRoute`.
+
+`Pizza.jsx` — usa `useParams()` para obtener el `id` de la URL y hace `fetch` a `http://localhost:5000/api/pizzas/:id`. Maneja estados de carga y error. El botón "Añadir al carrito" usa `addToCart` desde `CartContext`.
+
+`CardPizza.jsx` — agregado `Link` de React Router que redirige a `/pizza/:id` ("Ver más"). Recibe `id` como prop.
+
+`Home.jsx` — pasa la prop `id` a cada `CardPizza`.
+
+`Navbar.jsx` — consume `useUser()` y renderiza condicionalmente:
+
+-   Si `token === true`: botones **Profile** y **Logout**
+-   Si `token === false`: botones **Login** y **Register**
+-   **Home** y **Total** siempre visibles
+-   El botón **Logout** ejecuta el método `logout()` del contexto
+
+`Cart.jsx` — consume `useUser()` y deshabilita el botón **Pagar** cuando `token === false` (o cuando el carrito está vacío).
+
+## Funcionalidades implementadas
+
+-   Estado global de autenticación simulada con `UserContext`
+-   Ruta dinámica `/pizza/:id` con detalle obtenido desde la API
+-   Botón "Ver más" en cada `CardPizza` que redirige al detalle
+-   Navbar reactivo al estado de autenticación
+-   Botón **Pagar** deshabilitado cuando no hay sesión
+-   Ruta `/profile` protegida → redirige a `/login` si no hay token
+-   Rutas `/login` y `/register` redirigen al home si ya hay sesión
+
+------------------------------------------------------------------------
+
 # 🧠 Hooks utilizados
 
 ## useState
@@ -252,7 +263,11 @@ Utilizado para:
 
 Utilizado para:
 
--   consumir `CartContext` desde cualquier componente sin prop drilling
+-   consumir `CartContext` y `UserContext` desde cualquier componente sin prop drilling
+
+## useParams
+
+Utilizado en `Pizza.jsx` para obtener el `id` dinámico desde la URL y hacer la petición a la API correspondiente.
 
 ------------------------------------------------------------------------
 
@@ -261,7 +276,8 @@ Utilizado para:
 El proyecto consume una API local incluida en el material de apoyo del
 curso:
 
-http://localhost:5000/api/pizzas
+-   `GET http://localhost:5000/api/pizzas` — listado de pizzas
+-   `GET http://localhost:5000/api/pizzas/:id` — detalle de una pizza
 
 Ejecutar backend:
 
@@ -292,6 +308,11 @@ npm install npm start
 ✔ Uso correcto de hooks React\
 ✔ Estado global con Context API\
 ✔ Carrito funcional con agregar y eliminar productos\
-✔ Total sincronizado entre Navbar y página Cart
+✔ Total sincronizado entre Navbar y página Cart\
+✔ Autenticación simulada con `UserContext` y token global\
+✔ Rutas protegidas (`/profile`) y públicas (`/login`, `/register`)\
+✔ Ruta dinámica `/pizza/:id` con `useParams` y fetch al backend\
+✔ Navbar reactivo al estado de sesión\
+✔ Botón **Pagar** deshabilitado sin sesión activa
 
 ------------------------------------------------------------------------

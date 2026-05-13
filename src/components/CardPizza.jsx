@@ -1,4 +1,6 @@
-const CardPizza = ({ name, price, ingredients, img, onAdd }) => {
+import { Link } from "react-router-dom"
+
+const CardPizza = ({ id, name, price, ingredients, img, onAdd }) => {
   return (
     <div className="card h-100">
       <img src={img} className="card-img-top" alt={name} />
@@ -13,9 +15,15 @@ const CardPizza = ({ name, price, ingredients, img, onAdd }) => {
           ))}
         </ul>
         <h6 className="mt-3">Precio: ${price.toLocaleString()}</h6>
-        <button className="btn btn-dark mt-auto" onClick={onAdd}>
-          Añadir al carrito
-        </button>
+
+        <div className="d-flex justify-content-between mt-auto gap-2">
+          <Link to={`/pizza/${id}`} className="btn btn-outline-dark flex-fill">
+            Ver más 👀
+          </Link>
+          <button className="btn btn-dark flex-fill" onClick={onAdd}>
+            Añadir 🛒
+          </button>
+        </div>
       </div>
     </div>
   )

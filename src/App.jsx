@@ -1,8 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { CartProvider } from "./context/CartContext"
+import { UserProvider } from "./context/UserContext"
 
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
+import { ProtectedRoute, PublicRoute } from "./components/RouteGuards"
 
 import Home from "./pages/Home"
 import Login from "./pages/Login"
@@ -14,30 +16,60 @@ import NotFound from "./pages/NotFound"
 
 function App() {
   return (
-    <CartProvider>
-    <BrowserRouter>
+    <UserProvider>
+      <CartProvider>
+        <BrowserRouter>
 
-      <Navbar />
+          <Navbar />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/pizza/p001" element={<Pizza />} />
-        <Route path="/profile" element={<Profile />} />
+          <Routes>
+            <Route path="/" element={<Home />} />
 
-        {/* ruta explícita */}
-        <Route path="/404" element={<NotFound />} />
+            {/* Rutas públicas: solo accesibles si NO hay token */}
+            <Route
+              path="/login"
+              element={
+                <PublicRoute>
+                  <Login />
+                </PublicRoute>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <PublicRoute>
+                  <Register />
+                </PublicRoute>
+              }
+            />
 
-        {/* fallback obligatorio */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+            <Route path="/cart" element={<Cart />} />
 
-      <Footer />
+            {/* Ruta dinámica con useParams */}
+            <Route path="/pizza/:id" element={<Pizza />} />
 
-    </BrowserRouter>
-    </CartProvider>
+            {/* Ruta protegida: solo accesible si hay token */}
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              }
+            />
+
+            {/* ruta explícita */}
+            <Route path="/404" element={<NotFound />} />
+
+            {/* fallback obligatorio */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+
+          <Footer />
+
+        </BrowserRouter>
+      </CartProvider>
+    </UserProvider>
   )
 }
 

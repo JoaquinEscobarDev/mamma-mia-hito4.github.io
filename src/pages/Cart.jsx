@@ -1,7 +1,9 @@
 import { useCart } from "../context/CartContext"
+import { useUser } from "../context/UserContext"
 
 const Cart = () => {
   const { cart, increase, decrease, total } = useCart()
+  const { token } = useUser()
 
   return (
     <div className="container my-5">
@@ -45,7 +47,13 @@ const Cart = () => {
       )}
 
       <h2 className="mt-4">Total: ${total.toLocaleString()}</h2>
-      <button className="btn btn-dark mt-3">Pagar</button>
+      <button
+        className="btn btn-dark mt-3"
+        disabled={!token || cart.length === 0}
+        title={!token ? "Debes iniciar sesión para pagar" : ""}
+      >
+        Pagar
+      </button>
     </div>
   )
 }
